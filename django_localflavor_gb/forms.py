@@ -68,10 +68,10 @@ class GBPhoneNumberField(CharField):
         00_        44)_       0)_(      121_555_7777       _#5555
         00_(       44)_(      0_        121)_555_7777       #555
        (00)_                  0_(       1750_615_777       _#555
-       (00)_(                           1750)_615_777
-       (00_                             19467_55555
-        011_                            19467)_55555
-        011_(                           1750_62555
+       (00)_(                           1750)_615_777       x5555
+       (00_                             19467_55555        _x5555
+        011_                            19467)_55555        x555
+        011_(                           1750_62555         _x555
        (011)_                           1750)_62555
        (011)_(                          16977_3555
        (011_                            16977)_3555
@@ -81,8 +81,7 @@ class GBPhoneNumberField(CharField):
         ->         ->         0         ^as above           ^as above
         ->         ->        (0         ^                   ^
      Pick one item from each column. Underscores represent spaces or hyphens.
-     All number formats can also be matched without spaces or hyphens. The
-     '#' character can also be an 'x'.
+     All number formats can also be matched without spaces or hyphens.
 
      "Be conservative in what you do, be liberal in what you accept from
       others."
@@ -132,13 +131,13 @@ class GBPhoneNumberField(CharField):
                 0                                            # leading 0
             )
             (?:
-                \d{5}\)?[\s-]?\d{4,5}                        # [5+4][5+5]
-                |
-                \d{4}\)?[\s-]?(?:\d{5}|\d{3}[\s-]?\d{3})     # [4+5][4+6]
+                \d{2}\)?[\s-]?\d{4}[\s-]?\d{4}               # [2+8]
                 |
                 \d{3}\)?[\s-]?\d{3}[\s-]?\d{3,4}             # [3+6][3+7]
                 |
-                \d{2}\)?[\s-]?\d{4}[\s-]?\d{4}               # [2+8]
+                \d{4}\)?[\s-]?(?:\d{5}|\d{3}[\s-]?\d{3})     # [4+5][4+6]
+                |
+                \d{5}\)?[\s-]?\d{4,5}                        # [5+4][5+5]
                 |
                 8(?:00[\s-]?11[\s-]?11|45[\s-]?46[\s-]?4\d)  # [0+7]
             )
@@ -201,7 +200,7 @@ def valid_gb_phone_range(phone_number_nsn):
     Verifies that phone_number_nsn is a valid UK phone number range by initial
     digits and length. Tests the NSN part for length and number range. Based on
     http://www.aa-asterisk.org.uk/index.php/Number_format
-    http://www.aa-asterisk.org.uk/index.php/Regular_Expressions_for_Validating_and_Formatting_UK_Telephone_Numbers
+    http://www.aa-asterisk.org.uk/index.php/Regular_Expressions_for_Validating_and_Formatting_GB_Telephone_Numbers
     @param string phone_number_nsn
     @return boolean Returns boolean False if the phone number is not valid.
     """
@@ -244,7 +243,7 @@ def format_gb_nsn(phone_number_nsn):
     """
     Format GB phone numbers in correct format per number range. Based on
     http://www.aa-asterisk.org.uk/index.php/Number_format
-    http://www.aa-asterisk.org.uk/index.php/Regular_Expressions_for_Validating_and_Formatting_UK_Telephone_Numbers
+    http://www.aa-asterisk.org.uk/index.php/Regular_Expressions_for_Validating_and_Formatting_GB_Telephone_Numbers
     created by @g1smd
     @param string phone_number_nsn Must be the 10 or 9 digit NSN part of the
         number.
